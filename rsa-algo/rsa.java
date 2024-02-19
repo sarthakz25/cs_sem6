@@ -7,15 +7,15 @@ public class rsa {
     public static void main(String[] args) {
         int p, q, n, z, d = 0, e, i;
 
-        // The number to be encrypted and decrypted
+        // number to be encrypted and decrypted
         int msg = 12;
         double c;
         BigInteger msgback;
 
-        // 1st prime number p
+        // 1st prime number
         p = 3;
 
-        // 2nd prime number q
+        // 2nd prime number
         q = 11;
 
         n = p * q;
@@ -23,7 +23,7 @@ public class rsa {
         System.out.println("the value of z = " + z);
 
         for (e = 2; e < z; e++) {
-            // e is for public key exponent
+            // e for public key exponent
             if (gcd(e, z) == 1) {
                 break;
             }
@@ -34,7 +34,7 @@ public class rsa {
         for (i = 0; i <= 9; i++) {
             int x = 1 + (i * z);
 
-            // d is for private key exponent
+            // d for private key exponent
             if (x % e == 0) {
                 d = x / e;
                 break;

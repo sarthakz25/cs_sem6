@@ -18,63 +18,58 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
 public class des {
-    //instance of the Cipher class for encryption
     private static Cipher encrypt;
-    //instance of the Cipher class for decryption
     private static Cipher decrypt;
-    //initializing a vector
+
     private static final byte[] initialization_vector = {22, 33, 11, 44, 55, 99, 66, 77};
 
     public static void main(String[] args) {
-//path of file to encrypt
+//        path of file to encrypt
         String textFile = "C:/Users/sarth/Downloads/message.txt";
-//path of encrypted file as output
+//        path of encrypted file as output
         String encryptedData = "C:/Users/sarth/Downloads/encrypted.txt";
-//path of decrypted file as output
+//        path of decrypted file as output
         String decryptedData = "C:/Users/sarth/Downloads/decrypted.txt";
 
         try {
-//generating keys by using the KeyGenerator class
             SecretKey scrtkey = KeyGenerator.getInstance("DES").generateKey();
             AlgorithmParameterSpec aps = new IvParameterSpec(initialization_vector);
-//setting encryption mode
+//            setting encryption mode
             encrypt = Cipher.getInstance("DES/CBC/PKCS5Padding");
             encrypt.init(Cipher.ENCRYPT_MODE, scrtkey, aps);
-//setting decryption mode
+//            setting decryption mode
             decrypt = Cipher.getInstance("DES/CBC/PKCS5Padding");
             decrypt.init(Cipher.DECRYPT_MODE, scrtkey, aps);
-//calling encrypt() method to encrypt
+
             encryption(new FileInputStream(textFile), new FileOutputStream(encryptedData));
-//calling decrypt() method to decrypt
             decryption(new FileInputStream(encryptedData), new FileOutputStream(decryptedData));
-//prints if the program runs successfully
+
             System.out.println("The encrypted and decrypted files have been created successfully.");
         }
-//catching multiple exceptions
+//        catching exceptions
         catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException |
                InvalidAlgorithmParameterException | IOException e) {
-//prints the message (if any) related to exceptions
             e.printStackTrace();
         }
     }
 
-    //for encryption
+//    for encryption
     private static void encryption(InputStream input, OutputStream output)
             throws IOException {
         output = new CipherOutputStream(output, encrypt);
-//calling the writeBytes() method to write the encrypted bytes to the file
+
         writeBytes(input, output);
     }
 
-    //for decryption
+//    for decryption
     private static void decryption(InputStream input, OutputStream output)
             throws IOException {
         input = new CipherInputStream(input, decrypt);
-//to write the decrypted bytes to the file
+
         writeBytes(input, output);
     }
 
-    //method for writing bytes to the files
+//    for writing bytes to the files
     private static void writeBytes(InputStream input, OutputStream output)
             throws IOException {
         byte[] writeBuffer = new byte[512];
